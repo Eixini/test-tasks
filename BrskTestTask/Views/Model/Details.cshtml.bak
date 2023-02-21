@@ -1,4 +1,0 @@
-﻿@model Model
-@{
-    ViewData["Title"] = "Модель ID" + Model.Id;
-}
