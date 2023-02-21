@@ -1,0 +1,145 @@
+﻿using BrskTestTask.Data;
+using BrskTestTask.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace BrskTestTask.Controllers;
+
+[Route("[controller]")]
+public class BrandController : Controller
+{
+	private readonly ILogger<BrandController> _logger;
+	private readonly AutoContext _context;
+
+	public BrandController(ILogger<BrandController> logger,
+		AutoContext context)
+	{
+		_logger = logger;
+		_context = context;
+	}
+
+	// GET: BrandController
+	[HttpGet]
+	[Route("")]
+    public async Task<ActionResult> Index()
+	{
+		var models = await _context.Brands.ToListAsync();
+		return View(models);
+	}
+
+	// GET: BrandController/Details/5
+	[HttpGet]
+	[Route("[action]/{id}")]
+    public async Task<ActionResult> Details(int id)
+	{
+		var model = await _context.Brands
+			.Where(b => b.Id == id)
+			.FirstOrDefaultAsync();
+		if(model is not null)
+		{
+			return View(model);
+		}
+		return NotFound();
+	}
+
+	// GET: BrandController/Create
+	[HttpGet]
+	[Route("[action]")]
+	public IActionResult Create()
+	{
+		return View();
+	}
+
+	// POST: BrandController/Create
+	[HttpPost]
+	[Route("[action]")]
+	[ValidateAntiForgeryToken]
+    public async Task<ActionResult> Create(Brand model)
+	{
+		if(model is not null)
+		{
+			_context.Brands.Add(model);
+			_context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+		return View(model);
+	}
+
+	// GET: BrandController/Edit/5
+	[HttpGet]
+	[Route("[action]/{id}")]
+    public async Task<ActionResult> Edit(int id)
+	{
+		var model = await _context.Brands
+			.Where(b => b.Id == id)
+			.FirstOrDefaultAsync();
+		if (model is not null)
+		{
+			return View(model);
+		}
+		return NotFound();
+	}
+
+	// POST: BrandController/Edit/5
+	[HttpPost]
+	[Route("[action]/{id}")]
+	[ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(int id, Brand model)
+	{
+		if (model is not null)
+		{
+			var record = await _context.Brands
+				.Where(b => b.Id == id)
+				.FirstOrDefaultAsync();
+			if (record is null)
+			{
+				return NotFound();
+			}
+
+			record.Name = model.Name;
+			record.Active = model.Active;
+			_context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+		return View(model);
+	}
+
+	// GET: BrandController/Delete/5
+	[HttpGet]
+	[Route("[action]/{id}")]
+    public async Task<ActionResult> Delete(int id)
+	{
+		var model = await _context.Brands
+			.Where(b => b.Id == id)
+			.FirstOrDefaultAsync();
+		if (model is not null)
+		{
+			return View(model);
+		}
+		return NotFound();
+	}
+
+	// POST: BrandController/Delete/5
+	[HttpPost]
+	[Route("[action]/{id}")]
+	[ValidateAntiForgeryToken]
+    public async Task<ActionResult> Delete(int id, Brand model)
+	{
+		if (model is not null)
+		{
+			var record = await _context.Brands
+				.Where(b => b.Id == id)
+				.FirstOrDefaultAsync();
+			if (record is null)
+			{
+				return NotFound();
+			}
+
+			_context.Brands.Remove(record);
+			_context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+		return View(model);
+	}
+}

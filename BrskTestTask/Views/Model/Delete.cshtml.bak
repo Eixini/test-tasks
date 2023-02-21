@@ -1,0 +1,50 @@
+﻿@model Model
+@{
+	ViewData["Title"] = "Удаление модели";
+}
+
+<form asp-action="Delete">
+    <input asp-for="BrandId" hidden />
+
+    <div class="container border p-3">
+        <h1 class="text-primary">Удаление модели</h1>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-2">
+                <label asp-for="BrandId" class="pt-2" style="font-size: 20px;">Марка</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="BrandId" disabled class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label asp-for="Name" class="pt-2" style="font-size: 20px;">Модель</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Name" disabled class="form-control" />
+            </div>
+
+            <div class="col-2">
+                <label asp-for="Active" class="pt-2" style="font-size: 20px;">Доступность</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Active" disabled class="form-check-input" type="checkbox" />
+            </div>
+
+            <div class="col-5 offset-2">
+                <a asp-action="Index" class="btn-primary btn form-control">Вернуться к списку</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Удалить" class="btn btn-danger form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
